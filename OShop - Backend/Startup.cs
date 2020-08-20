@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Service;
 
 namespace OShop___Backend
 {
@@ -27,7 +28,10 @@ namespace OShop___Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.RegisterContextService(Configuration.GetConnectionString("DefaultConnection"));
+
+
+            services.RegisterDataLayer();
+            services.RegisterServiceLayer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -188,7 +188,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    ImageUrt = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
