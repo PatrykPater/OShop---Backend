@@ -5,6 +5,5 @@ namespace Service.Factories.Interfaces
 {
     public interface IProductDtoFactory
     {
-        ProductDto PrepareProductToProductDto(Product product);
     }
 }

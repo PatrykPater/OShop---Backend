@@ -1,7 +1,13 @@
-﻿namespace Data.Infrastructure
+﻿using Data.Repositories;
+using Data.Repositories.Interfaces;
+using System.Threading.Tasks;
+
+namespace Data.Infrastructure
 {
     public interface IUnitOfWork
     {
-        DBContext DB { get; }
+        IProductRepository ProductRepository { get; }
+        IShoppingCartRepository ShoppingCartRepository { get; };
+        Task Save();
     }
 }

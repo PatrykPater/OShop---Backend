@@ -20,6 +20,7 @@ namespace Service
         private static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
         }
 
         private static void RegisterFactories(this IServiceCollection services)

@@ -1,16 +1,30 @@
-﻿using System;
+﻿using Data.Repositories;
+using Data.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Data.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork(DBContext context)
+        private readonly DBContext _dBContext;
+
+        public IProductRepository ProductRepository { get; }
+        public IShoppingCartRepository ShoppingCartRepository { get; }
+
+        public UnitOfWork(DBContext dBContext)
         {
-            DB = context;
+            _dBContext = dBContext;
+
+            ProductRepository = new ProductRepository(_dBContext);
+            ShoppingCartRepository = new ShoppingCartRepository(_dBContext);
         }
 
-        public DBContext DB { get; }
+        public async Task Save()
+        {
+            await _dBContext.SaveChangesAsync();
+        }
     }
 }

@@ -3,53 +3,106 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using OShop___Backend.Infrastructure;
+using Service.Dto;
 using Service.Services.Interfaces;
 
 namespace OShop___Backend.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly IProductService _productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ILogger logger) : base(logger)
         {
             _productService = productService;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var productsDto = _productService.GetAll();
-            return new JsonResult(productsDto);
+            try
+            {
+                var productsDto = await  _productService.GetAll();
+                return new JsonResult(productsDto);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(500);
+            }
         }
 
-        // GET: api/Products/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            try
+            {
+                var productDto = await _productService.GetByID(id);
+                return new JsonResult(productDto);
+            }
+            catch(ProductNotFound ex)
+            {
+                return NotFound("Product not found");
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(500);
+            }
         }
 
-        // POST: api/Products
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] string productJson)
         {
+            try
+            {
+                var productDto = JsonConvert.DeserializeObject<ProductDto>(productJson);
+                var saveResultDto = await _productService.Add(productDto);
+                return Ok(saveResultDto);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(500);
+            }
         }
 
-        // PUT: api/Products/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] string productJson)
         {
+            try
+            {
+                var productDto = JsonConvert.DeserializeObject<ProductDto>(productJson);
+                var saveResultDto = await _productService.Update(productDto, id);
+                return Ok(saveResultDto);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(500);
+            }
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                await _productService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(500);
+            }
         }
     }
 }
