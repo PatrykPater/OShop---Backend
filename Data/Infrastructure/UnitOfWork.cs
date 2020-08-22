@@ -13,6 +13,7 @@ namespace Data.Infrastructure
 
         public IProductRepository ProductRepository { get; }
         public IShoppingCartRepository ShoppingCartRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
 
         public UnitOfWork(DBContext dBContext)
         {
@@ -20,6 +21,7 @@ namespace Data.Infrastructure
 
             ProductRepository = new ProductRepository(_dBContext);
             ShoppingCartRepository = new ShoppingCartRepository(_dBContext);
+            CategoryRepository = new CategoryRepository(_dBContext);
         }
 
         public async Task Save()

@@ -39,7 +39,7 @@ namespace OShop___Backend.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -59,11 +59,10 @@ namespace OShop___Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string productJson)
+        public async Task<IActionResult> Post([FromBody] ProductDto productDto)
         {
             try
             {
-                var productDto = JsonConvert.DeserializeObject<ProductDto>(productJson);
                 var saveResultDto = await _productService.Add(productDto);
                 return Ok(saveResultDto);
             }
@@ -75,11 +74,10 @@ namespace OShop___Backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] string productJson)
+        public async Task<IActionResult> Put(int id, [FromBody] ProductDto productDto)
         {
             try
             {
-                var productDto = JsonConvert.DeserializeObject<ProductDto>(productJson);
                 var saveResultDto = await _productService.Update(productDto, id);
                 return Ok(saveResultDto);
             }

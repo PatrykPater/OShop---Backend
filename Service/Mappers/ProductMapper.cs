@@ -16,7 +16,8 @@ namespace Service.Mappers
                 Name = product.Name,
                 ImageUrl = product.ImageUrl,
                 Price = product.Price,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category?.Name
             };
         }
 
@@ -27,7 +28,7 @@ namespace Service.Mappers
                 Name = productDto.Name,
                 ImageUrl = productDto.ImageUrl,
                 Price = productDto.Price,
-                CategoryId = productDto.CategoryId ?? 0
+                CategoryId = productDto.CategoryId
             };
 
             return product;
@@ -35,7 +36,7 @@ namespace Service.Mappers
 
         public static void ToProduct(this Product product, ProductDto productDto)
         {
-            product.CategoryId = productDto.CategoryId ?? 0;
+            product.CategoryId = productDto.CategoryId;
             product.ImageUrl = productDto.ImageUrl;
             product.Name = productDto.Name;
             product.Price = product.Price;

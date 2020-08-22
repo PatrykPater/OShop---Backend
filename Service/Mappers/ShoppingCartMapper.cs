@@ -13,7 +13,9 @@ namespace Service.Mappers
         {
             return new ShoppingCart
             {
-                CartItems = shoppingCartDto.CartItems.Select(itemDto => CartItemMapper.ToCartItem(itemDto)),
+                CartItems = shoppingCartDto.CartItems.Any() ? 
+                            shoppingCartDto.CartItems.Select(itemDto => CartItemMapper.ToCartItem(itemDto)) :
+                            new List<CartItem>(),
                 Created = shoppingCartDto.Created,
                 UserId = shoppingCartDto.UserId
             };
@@ -34,13 +36,33 @@ namespace Service.Mappers
         {
             shoppingCart.Created = shoppingCartDto.Created;
             shoppingCart.UserId = shoppingCartDto.UserId;
+            shoppingCart.CartItems = UpdateCartItems(shoppingCart.CartItems, shoppingCartDto.CartItems);
         }
 
-        private static void UpdateCartItems(List<CartItem> cartItems, List<CartItemDto> cartItemDtos)
+        private static List<CartItem> UpdateCartItems(IEnumerable<CartItem> cartItems, IEnumerable<CartItemDto> cartItemDtos)
         {
+            var result = new List<CartItem>();
+            
+            if (!cartItemDtos.Any())
+                return result;
+            
             foreach (var cartItemDto in cartItemDtos)
             {
+                var cartItem = cartItems.FirstOrDefault(c => c.ProductId == cartItemDto.ProductId);
+
+                if (cartItem == null)
+                {
+                    cartItem = CartItemMapper.ToCartItem(cartItemDto);
+                }
+                else
+                {
+                    cartItem.ToCartItem(cartItemDto);
+                }
+
+                result.Add(cartItem);
             }
+
+            return result;
         }
     }
 }

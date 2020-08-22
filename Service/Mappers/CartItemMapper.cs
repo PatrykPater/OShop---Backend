@@ -27,5 +27,20 @@ namespace Service.Mappers
                 ShoppingCartId = cartItem.ShoppingCartId
             };
         }
+
+        public static void ToCartItem(this CartItem cartItem, CartItemDto cartItemDto)
+        {
+            cartItem.ProductId = cartItemDto.ProductId;
+            cartItem.Quantity = cartItemDto.Quantity;
+            cartItem.ShoppingCartId = cartItemDto.ShoppingCartId;
+        }
+
+        public static void FillInCartItemDtoDetails(this CartItemDto cartItemDto, ProductDto product)
+        {
+            cartItemDto.Name = product.Name;
+            cartItemDto.Price = product.Price;
+            cartItemDto.ImageUrl = product.ImageUrl;
+            cartItemDto.ItemTotal = product.Price * cartItemDto.Quantity;
+        }
     }
 }

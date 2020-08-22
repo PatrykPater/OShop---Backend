@@ -12,7 +12,7 @@ using Service.Services.Interfaces;
 
 namespace OShop___Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ShoppingCartsController : BaseApiController
     {
@@ -23,7 +23,7 @@ namespace OShop___Backend.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -44,11 +44,10 @@ namespace OShop___Backend.Controllers
 
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string shoppingCartJson)
+        public async Task<IActionResult> Post([FromBody] ShoppingCartDto shoppingCartDto)
         {
             try
             {
-                var shoppingCartDto = JsonConvert.DeserializeObject<ShoppingCartDto>(shoppingCartJson);
                 var saveResultDto = await _shoppingCartService.Add(shoppingCartDto);
                 return Ok(saveResultDto);
             }
@@ -60,11 +59,12 @@ namespace OShop___Backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] string shoppingCartJson)
+        public async Task<IActionResult> Put(int id, [FromBody] ShoppingCartDto shoppingCartDto)
         {
             try
             {
-                return Ok();
+                var saveResultDto = await _shoppingCartService.Update(shoppingCartDto, id);
+                return Ok(saveResultDto);
             }
             catch (Exception ex)
             {

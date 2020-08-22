@@ -52,7 +52,7 @@ namespace Service.Services
             var product = await _unitOfWork.ProductRepository.GetByID(id);
             product.ToProduct(productDto);
 
-            var saveResult = await _unitOfWork.ProductRepository.Update(product);
+            var saveResult = _unitOfWork.ProductRepository.Update(product);
             await _unitOfWork.Save();
 
             var saveResultDto = ProductMapper.ToProductDto(saveResult);

@@ -13,6 +13,6 @@ namespace Domain
 
         public int? UserId { get; set; }
         public DateTime Created { get; set; }
-        public IEnumerable<CartItem> CartItems { get; set; }
+        public virtual IEnumerable<CartItem> CartItems { get; set; }
     }
 }

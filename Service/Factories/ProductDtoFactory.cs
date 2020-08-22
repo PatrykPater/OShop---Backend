@@ -9,5 +9,6 @@ namespace Service.Factories
 {
     public class ProductDtoFactory : IProductDtoFactory
     {
+        
     }
 }

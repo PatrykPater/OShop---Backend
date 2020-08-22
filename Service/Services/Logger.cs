@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Service.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OShop___Backend.Infrastructure.Inferfaces
+namespace Service.Services
 {
     public class Logger : ILogger
     {

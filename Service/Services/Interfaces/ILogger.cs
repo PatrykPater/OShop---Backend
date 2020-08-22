@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OShop___Backend.Infrastructure
+namespace Service.Services.Interfaces
 {
     public interface ILogger
     {

@@ -7,5 +7,6 @@ namespace Service.Services.Interfaces
     {
         Task<ShoppingCartDto> Add(ShoppingCartDto shoppingCartDto);
         Task<ShoppingCartDto> GetByID(int id);
+        Task<ShoppingCartDto> Update(ShoppingCartDto shoppingCartDto, int id);
     }
 }

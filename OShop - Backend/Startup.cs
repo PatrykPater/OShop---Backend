@@ -29,11 +29,10 @@ namespace OShop___Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-
             services.RegisterDataLayer();
             services.RegisterServiceLayer();
             services.RegisterApiServices();
+            services.RegisterCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,15 +44,17 @@ namespace OShop___Backend
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
+
+            app.UseCors(CorsConfig.MyAllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

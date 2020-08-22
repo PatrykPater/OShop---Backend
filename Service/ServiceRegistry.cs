@@ -21,11 +21,15 @@ namespace Service
         {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ILogger, Logger>();
         }
 
         private static void RegisterFactories(this IServiceCollection services)
         {
             services.AddScoped<IProductDtoFactory, ProductDtoFactory>();
+            services.AddScoped<ICartItemFactory, CartItemFactory>();
+            services.AddScoped<IShoppingCartFactory, ShoppingCartFactory>();
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Data.Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Domain
         }
 
         public string Name { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public virtual IEnumerable<Product> Products { get; set; }
     }
 }

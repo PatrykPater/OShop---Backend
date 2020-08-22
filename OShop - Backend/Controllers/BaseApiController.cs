@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OShop___Backend.Infrastructure;
+using Service.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

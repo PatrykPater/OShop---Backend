@@ -1,6 +1,7 @@
 ﻿using Data.Infrastructure;
 using Service.Dto;
 using Service.Exceptions;
+using Service.Factories.Interfaces;
 using Service.Mappers;
 using Service.Services.Interfaces;
 using System;
@@ -13,10 +14,12 @@ namespace Service.Services
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IShoppingCartFactory _shoppingCartFactory;
 
-        public ShoppingCartService(IUnitOfWork unitOfWork)
+        public ShoppingCartService(IUnitOfWork unitOfWork, IShoppingCartFactory shoppingCartFactory)
         {
             _unitOfWork = unitOfWork;
+            _shoppingCartFactory = shoppingCartFactory;
         }
 
         public async Task<ShoppingCartDto> Add(ShoppingCartDto shoppingCartDto)
@@ -27,6 +30,8 @@ namespace Service.Services
             await _unitOfWork.Save();
 
             var saveResultDto = ShoppingCartMapper.ToShoppingCartDto(saveResult);
+            await _shoppingCartFactory.PrepareShoppingCartDto(saveResultDto);
+
             return saveResultDto;
 
         }
@@ -38,19 +43,24 @@ namespace Service.Services
             if (shoppingCart == null)
                 throw new ShoppingCartNotFound();
 
-            return ShoppingCartMapper.ToShoppingCartDto(shoppingCart);
+            var shoppingCartDto = ShoppingCartMapper.ToShoppingCartDto(shoppingCart);
+            await _shoppingCartFactory.PrepareShoppingCartDto(shoppingCartDto);
+
+            return shoppingCartDto;
         }
 
-        public async Task<ShoppingCartDto> Update(ShoppingCartDto productDto, int id)
+        public async Task<ShoppingCartDto> Update(ShoppingCartDto shoppingCartDto, int id)
         {
             var shoppingCart = await _unitOfWork.ShoppingCartRepository.GetByID(id);
-            ShoppingCartMapper.ToShoppingCart(productDto);
+            shoppingCart.ToShoppingCart(shoppingCartDto);
 
 
-            var saveResult = await _unitOfWork.ShoppingCartRepository.Update(product);
+            var saveResult = _unitOfWork.ShoppingCartRepository.Update(shoppingCart);
             await _unitOfWork.Save();
 
-            var saveResultDto = ProductMapper.ToProductDto(saveResult);
+            var saveResultDto = ShoppingCartMapper.ToShoppingCartDto(saveResult);
+            await _shoppingCartFactory.PrepareShoppingCartDto(saveResultDto);
+
             return saveResultDto;
         }
     }

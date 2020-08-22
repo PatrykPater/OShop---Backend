@@ -11,7 +11,9 @@ namespace Data.Infrastructure
         public DBContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DBContext>();
-            optionsBuilder.UseSqlServer(ConfigSettings.ConnectionString);
+            
+            optionsBuilder.UseLazyLoadingProxies()
+                          .UseSqlServer(ConfigSettings.ConnectionString);
 
             return new DBContext(optionsBuilder.Options);
         }

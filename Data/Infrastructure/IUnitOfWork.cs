@@ -7,7 +7,8 @@ namespace Data.Infrastructure
     public interface IUnitOfWork
     {
         IProductRepository ProductRepository { get; }
-        IShoppingCartRepository ShoppingCartRepository { get; };
+        IShoppingCartRepository ShoppingCartRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
         Task Save();
     }
 }
